@@ -7,13 +7,14 @@
     <div>
         t Email: <b id="email">#{email}</b> | <a type="button" href="/logout">Logout</a>
     </div>
-    p Results for assignment <b id="asgn">#{asgn}</b>.
-    <div id="results">
-    </div>
-    <br>
+    p Submitting for assignment <b id="asgn">#{link}</b>.
+    <form action="/upload/#{link}" method="post" enctype="multipart/form-data">
+        <input type="file" name="upload"><br>
+        <input type="submit" disabled>
+    </form>
     <a href="/"> back home </a>
 
-    <script type="text/javascript" src="/js/results.js"></script>
+    <script type="text/javascript" src="/js/upload.js"></script>
 </body>
 </html>
 

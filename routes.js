@@ -1,39 +1,52 @@
+var express = require('express');
+var router = express.Router();
 var path = require('path');
+var User = require('./models/user');
 
 var upload = require('./controllers/upload.js');
 var results = require('./controllers/results.js');
 var register = require('./controllers/register.js');
+var logout = require('./controllers/logout.js');
+var profile = require('./controllers/profile.js');
+var mainpage = require('./controllers/mainpage.js');
 
-var routes = function(app) {
+function requiresLogin(req, res, next) {
+    if(req.session && req.session.userId) return next();
+    return res.status(401).sendFile(path.join(__dirname, '/client/notlogin.html'));
+}
 
-    app.route('/').get(function(req, res) {
-        res.sendFile(path.join(__dirname, '/client/index.html'));
-    });
-    app.route('/').post(function(req, res) {
-        console.log(req.body);
-        res.end();
-    });
+function requiresAdmin(req, res, next) {
+    if(req.session && req.session.admin) return next();
+    return res.status(401).sendFile(path.join(__dirname, '/client/notlogin.html'));
+}
 
-    app.route('/upload').post(upload.upload_a_file);
-    app.route('/upload').get(function(req, res) {
-        res.sendFile(path.join(__dirname, '/client/upload.html'));
-    });
+router.get('/', mainpage.get);
+router.post('/', mainpage.post);
 
-    app.route('/results').get(results.get_results);
+router.get('/logout', logout);
 
-    app.route('/success').get(function(req, res) {
-        res.sendFile(path.join(__dirname, '/client/success.html'));
-    });
+router.get('/profile', profile.show_user);
 
-    app.route('/fail').get(function(req, res) {
-        res.sendFile(path.join(__dirname, '/client/fail.html'));
-    });
+router.post('/upload/:ASGN', upload.upload_a_file);
+router.get('/upload/:ASGN', requiresLogin, upload.view);
+router.get('/upload', requiresLogin, upload.queue);
 
-    app.route('/update').post(function(req, res) {
-        console.log(req.headers);
-        res.write("yay");
-        res.send();
-    });
-};
+router.get('/results/:ASGN', requiresLogin, results.view);
 
-module.exports = routes;
+router.get('/success', function(req, res) {
+    res.sendFile(path.join(__dirname, '/client/success.html'));
+});
+
+router.get('/fail', function(req, res) {
+    res.sendFile(path.join(__dirname, '/client/fail.html'));
+});
+
+router.post('/update/:USERNAME/:ASGN', results.post);
+
+// API
+router.get('/assignments', profile.get_assignments);
+router.get('/submissions', results.get_submissions);
+router.get('/recent/:ASGN', results.most_recent);
+
+module.exports = router;
+
