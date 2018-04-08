@@ -28,7 +28,6 @@ exports.api_recent = function(req, res, data) {
 }
 
 exports.most_recent = function(req, res) {
-    console.log(req.session.username + " " + req.params.ASGN);
     Submission.find({
         username: req.session.username,
         asgn: req.params.ASGN,
@@ -38,37 +37,26 @@ exports.most_recent = function(req, res) {
         limit: 1,
     }, function(err, data) {
         if(err) console.log(err);
-        console.log(data);
+        console.log("PULLING MOST RECENT SUB OF ", req.session.username, req.params.ASGN, data);
         if(!data) {
             return exports.api_recent(req, res, null);
         }
-        console.log(data[0]);
-        fetch_results(req, res, data[0]._id);
+        fetch_results(req, res, data[0]);
     });
 };
 
-function fetch_results (req, res, jobid) {
+function fetch_results (req, res, job) {
     request.get({
-        url: 'http://localhost:3000/poll/' + req.session.username + '/' + req.params.ASGN + '/' + jobid + '.out/'
+        url: 'http://localhost:3000/poll/' + req.session.username + '/' + req.params.ASGN + '/' + job._id + '.out/'
     }, function(err, resp, body) {
         var score;
-        console.log(body);
-        if(body.statusMsg !== "Output file not found") score = parsescore(body);
-        exports.api_recent(req, res, score);
+        console.log("POLL BODY RETURN ", body);
+        if(body && body.statusMsg !== "Output file not found") score = parsescore(body);
+        exports.api_recent(req, res, [score, job]);
     });
 }
 
 exports.get_results = function(req, res) {
-    /*
-    var testcase = new TestCase({
-        testcase: 3,
-        correct: 1
-    });
-    testcase.save(function(err, data) {
-        if(err) throw err;
-        console.log(data);
-    });
-    */
     TestCase.find({}, function(err, data) {
         if(err) throw err;
         console.log(data);

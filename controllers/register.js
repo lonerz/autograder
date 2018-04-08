@@ -23,7 +23,6 @@ module.exports = function(req, res) {
 
         if(adminEmails.includes(body.email)) {
             userData['admin'] = true;
-            console.log(userData);
         }
 
         User.create(userData, function(err, user) {

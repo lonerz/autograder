@@ -9,6 +9,7 @@ var register = require('./controllers/register.js');
 var logout = require('./controllers/logout.js');
 var profile = require('./controllers/profile.js');
 var mainpage = require('./controllers/mainpage.js');
+var admin = require('./controllers/admin.js');
 
 function requiresLogin(req, res, next) {
     if(req.session && req.session.userId) return next();
@@ -17,7 +18,7 @@ function requiresLogin(req, res, next) {
 
 function requiresAdmin(req, res, next) {
     if(req.session && req.session.admin) return next();
-    return res.status(401).sendFile(path.join(__dirname, '/client/notlogin.html'));
+    return res.status(401).sendFile(path.join(__dirname, '/client/notauth.html'));
 }
 
 router.get('/', mainpage.get);
@@ -26,6 +27,9 @@ router.post('/', mainpage.post);
 router.get('/logout', logout);
 
 router.get('/profile', profile.show_user);
+
+router.get('/admin', requiresAdmin, admin.view);
+router.get('/gradebook/:ASGN', requiresAdmin, admin.gradebook);
 
 router.post('/upload/:ASGN', upload.upload_a_file);
 router.get('/upload/:ASGN', requiresLogin, upload.view);

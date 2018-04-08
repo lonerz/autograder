@@ -60,7 +60,7 @@ function createsub(req, res) {
             console.log(err);
             return res.send("error adding submission to database <br> <a href='/'> back home </a>");
         }
-        console.log(data);
+        console.log("NEW SUBMISSION: ", data);
         return sendjob(req, res, data._id);
     });
 }
