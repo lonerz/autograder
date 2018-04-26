@@ -15,6 +15,6 @@ function setSubmissions(sub) {
 }
 
 window.onload = function() {
-    GET("http://localhost:8000/submissions", setSubmissions);
+    GET"./submissions", setSubmissions);
 };
 

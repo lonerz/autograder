@@ -31,7 +31,7 @@ function sendjob(req, res, db_id) {
                 [{"destFile": "grader.py", "localFile": "grader.py"},
                 {"destFile": "Makefile", "localFile": "autograde-Makefile"},
                 {"destFile": "handin.py", "localFile": "handin.py"}],
-            "notifyURL": "http://localhost:8000/update/" + req.session.username + '/' + req.params.ASGN + '/',
+            "notifyURL": "./update/" + req.session.username + '/' + req.params.ASGN + '/',
             "image": "autograding_image",
             "output_file": db_id + ".out",
             "jobName": db_id,

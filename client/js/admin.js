@@ -7,6 +7,6 @@ function setAssignments(asgn) {
 }
 
 window.onload = function() {
-    GET("http://localhost:8000/assignments", setAssignments);
+    GET"./assignments", setAssignments);
 };
 
