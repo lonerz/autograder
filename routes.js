@@ -9,6 +9,7 @@ var register = require('./controllers/register.js');
 var logout = require('./controllers/logout.js');
 var profile = require('./controllers/profile.js');
 var mainpage = require('./controllers/mainpage.js');
+var api = require('./controllers/api.js');
 var admin = require('./controllers/admin.js');
 
 function requiresLogin(req, res, next) {
@@ -23,6 +24,11 @@ function requiresAdmin(req, res, next) {
 
 router.get('/', mainpage.get);
 router.post('/', mainpage.post);
+
+router.get('/api/**', api.get);
+router.post('/api/**', api.post);
+router.get('/api', api.get);
+router.post('/api', api.post);
 
 router.get('/logout', logout);
 
@@ -53,4 +59,3 @@ router.get('/submissions', results.get_submissions);
 router.get('/recent/:ASGN', results.most_recent);
 
 module.exports = router;
-

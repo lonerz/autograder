@@ -7,6 +7,5 @@ function setAssignments(asgn) {
 }
 
 window.onload = function() {
-    GET"./assignments", setAssignments);
+    GET("./assignments", setAssignments);
 };
-

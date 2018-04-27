@@ -15,6 +15,5 @@ function setSubmissions(sub) {
 }
 
 window.onload = function() {
-    GET"./submissions", setSubmissions);
+    GET("./submissions", setSubmissions);
 };
-
