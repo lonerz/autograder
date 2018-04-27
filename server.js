@@ -7,6 +7,11 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 var app = express();
+app.set('view options', {
+    locals: {
+      cache:false
+   }
+ });
 var DBurl = "mongodb://127.0.0.1:27017/autograder";
 var User = require('./models/user.js');
 
