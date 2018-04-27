@@ -2,7 +2,7 @@ console.log("Hello World!");
 
 var a = function() {
     var http = new XMLHttpRequest();
-    var url = "http://localhost:3000/poll/test/assessment1/result.out/";
+    var url = "./api/poll/test/assessment1/result.out/";
     var params = "";
     http.open("GET", url, true);
 

@@ -7,6 +7,5 @@ function setResults(obj) {
 }
 
 window.onload = function() {
-    GET("http://localhost:8000/recent/" + $("#asgn").text(), setResults);
+    GET("./recent/" + $("#asgn").text(), setResults);
 };
-

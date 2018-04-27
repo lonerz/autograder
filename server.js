@@ -7,6 +7,11 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 var app = express();
+app.set('view options', {
+    locals: {
+      cache:false
+   }
+ });
 var DBurl = "mongodb://127.0.0.1:27017/autograder";
 var User = require('./models/user.js');
 
@@ -24,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.use('/js', express.static(path.join(__dirname, '/client/js')));
+app.use('/css', express.static(path.join(__dirname, '/client/css')));
+app.use('/fonts', express.static(path.join(__dirname, '/client/fonts')));
 
 // sessions
 app.use(session({
@@ -58,5 +65,3 @@ app.use('/', routes);
 app.listen(8000, function() {
     console.log("Server is running on port 8000");
 });
-
-
