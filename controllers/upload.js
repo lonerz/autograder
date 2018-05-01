@@ -2,6 +2,7 @@ var formidable = require('formidable');
 var fs = require('fs');
 var request = require('request');
 var path = require('path');
+var copy = require('copy');
 
 var Submission = require('../models/submission');
 
@@ -65,8 +66,26 @@ function createsub(req, res) {
     });
 }
 
+function copyFiles(req, res) {
+    var oldpath = __dirname + "/../../Tango/courselabs/joshuapan-" + req.params.ASGN; // + "/grader.py";
+    var newpath = __dirname + "/../../Tango/courselabs/" + req.session.username + "-" + req.params.ASGN; // + "/grader.py";
+    fs.copyFile(oldpath + "/grader.py", newpath + "/grader.py", function(err) {
+        if (err) {
+            console.log(err);
+            return res.send("error copying grader.py <br> <a href='/'> back home </a>");
+        }
+        fs.copyFile(oldpath + "/autograde-Makefile", newpath + "/autograde-Makefile", function(err) {
+            if (err) {
+                console.log(err);
+                return res.send("error copying autograde-Makefile <br> <a href='/'> back home </a>");
+            }
+            findsub(req, res);
+        });
+    });
+}
+
 function success_upload(req, res) {
-    findsub(req, res);
+    copyFiles(req, res);
 }
 
 exports.upload_a_file = function(req, res) {
