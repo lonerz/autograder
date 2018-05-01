@@ -38,7 +38,7 @@ exports.most_recent = function(req, res) {
     }, function(err, data) {
         if(err) console.log(err);
         console.log("PULLING MOST RECENT SUB OF ", req.session.username, req.params.ASGN, data);
-        if(!data) {
+        if(!data || !data[0]) {
             return exports.api_recent(req, res, null);
         }
         fetch_results(req, res, data[0]);
@@ -46,6 +46,7 @@ exports.most_recent = function(req, res) {
 };
 
 function fetch_results (req, res, job) {
+    if(!job) return exports.api_recent(req, res, null);
     request.get({
         url: 'http://localhost:3000/poll/' + req.session.username + '/' + req.params.ASGN + '/' + job._id + '.out/'
     }, function(err, resp, body) {
