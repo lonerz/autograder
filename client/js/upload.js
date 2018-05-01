@@ -9,6 +9,5 @@ function waitForUpload(asgn) {
 window.onload = function() {
     var asgn = $("#asgn").text();
     var username = $("#email").text().split("@")[0];
-    GET("http://localhost:3000/open/" + username + "/" + asgn + "/", waitForUpload);
+    GET("../api/open/" + username + "/" + asgn + "/", waitForUpload);
 };
-

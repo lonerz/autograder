@@ -31,7 +31,7 @@ function sendjob(req, res, db_id) {
                 [{"destFile": "grader.py", "localFile": "grader.py"},
                 {"destFile": "Makefile", "localFile": "autograde-Makefile"},
                 {"destFile": "handin.py", "localFile": "handin.py"}],
-            "notifyURL": "http://localhost:8000/update/" + req.session.username + '/' + req.params.ASGN + '/',
+            "callback_url": "http://localhost:8000/update/" + req.session.username + '/' + req.params.ASGN + '/',
             "image": "autograding_image",
             "output_file": db_id + ".out",
             "jobName": db_id,
@@ -77,7 +77,7 @@ exports.upload_a_file = function(req, res) {
             return res.redirect('/fail');
         }
         var oldpath = files.upload.path;
-        var newpath = __dirname + "/../../Tango/courselabs/" + req.session.username + "-" + req.params.ASGN + "/" + files.upload.name;
+        var newpath = __dirname + "/../../Tango/courselabs/" + req.session.username + "-" + req.params.ASGN + "/handin.py"; // + files.upload.name;
         fs.rename(oldpath, newpath, function (err) {
             if(err) {
                 console.log(err);
