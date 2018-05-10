@@ -43,7 +43,7 @@ function sendjob(req, res, db_id) {
         }
     }, function(err, resp, body) {
         if(body && body.statusMsg === 'Job added') {
-            return res.redirect('/success');
+            return res.redirect('/upload');
         }
         if(err) console.log(err);
         return res.redirect('/fail');

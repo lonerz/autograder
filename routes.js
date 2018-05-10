@@ -41,10 +41,6 @@ router.get('/upload', requiresLogin, upload.queue);
 
 router.get('/results/:ASGN', requiresLogin, results.view);
 
-router.get('/success', function(req, res) {
-    res.sendFile(path.join(__dirname, '/client/success.html'));
-});
-
 router.get('/fail', function(req, res) {
     res.sendFile(path.join(__dirname, '/client/fail.html'));
 });
