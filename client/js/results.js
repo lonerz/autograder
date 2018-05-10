@@ -23,7 +23,7 @@ function setResults(obj) {
     var date = new Date(obj[1].submitted);
     $("#des").append("Job ID: <b>" + obj[1]._id + "</b>, submitted at " + date.toGMTString() + ". <br><br>");
     if(obj[0]) $("#des").append("Most recent score: <b>" + obj[0].score + "</b>. <br>There should be " + obj[0].num_tests + " testcases. If not, assume the testcases missing got an error/wrong answer and ask Josh for more details.");
-    else return $("#des").append("Most recent score: <b>0</b>. Time limit exceeded on one test, ask Josh for help.");
+    else return $("#des").append("Most recent score: <b>0</b>. Compile error OR time limit exceeded on one test. Make sure your code actually compiles. Then, ask Josh for help.");
 
     console.log("here we go");
 
