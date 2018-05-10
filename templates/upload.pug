@@ -1,18 +1,46 @@
 <html>
 <head>
-    <script type="text/javascript" src="/js/get.js"></script>
-    <script src="/js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/js/get.js"></script>
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/js/materialize.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-    <div>
-        t Email: <b id="email">#{email}</b> | <a type="button" href="/logout">Logout</a>
+    <nav>
+    <div class="nav-wrapper">
+     <ul class="left">
+      <li><a href="/"><i class="material-icons">home</i></a></li>
+     </ul>
+     <ul class="right">
+       <li><a href="/logout">Logout</a></li>
+     </ul>
+     <ul class="right">
+       <li>
+         <a href="#" id="email">Email: #{email}</a>
+       </li>
+     </ul>
     </div>
-    p Submitting for assignment <b id="asgn">#{link}</b>.
-    <form action="/upload/#{link}" method="post" enctype="multipart/form-data">
-        <input type="file" name="upload"><br>
-        <input type="submit" disabled>
-    </form>
-    <a href="/"> back home </a>
+    </nav>
+    <div class="container">
+        <p>Submitting for assignment <b id="asgn">#{link}</b>.</p>
+
+        <div>
+        <form action="/upload/#{link}" method="post" enctype="multipart/form-data">
+            <div class="file-field input-field">
+                <div class="btn-small">
+                    <span>File:</span>
+                    <input type="file" name="upload"><br>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Select a file">
+                </div>
+            </div>
+            <button class="btn-small" type="submit" disabled>Submit<i class="material-icons right">send</i></button>
+        </form>
+        </div>
+    </div>
 
     <script type="text/javascript" src="/js/upload.js"></script>
 </body>

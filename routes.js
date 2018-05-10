@@ -49,11 +49,14 @@ router.get('/fail', function(req, res) {
     res.sendFile(path.join(__dirname, '/client/fail.html'));
 });
 
-router.post('/update/:USERNAME/:ASGN', results.post);
+router.post('/update/:ASGN/:USERNAME', results.post);
 
 // API
 router.get('/assignments', profile.get_assignments);
 router.get('/submissions', results.get_submissions);
+router.get('/students', admin.get_students);
+
 router.get('/recent/:ASGN', results.most_recent);
+router.get('/recent/:ASGN/:USERNAME', requiresAdmin, results.most_recent);
 
 module.exports = router;

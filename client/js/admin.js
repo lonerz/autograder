@@ -1,8 +1,27 @@
-function setAssignments(asgn) {
-    var assgn = JSON.parse(asgn);
+function htmlForAssignment(assgn){
+  var s=
+  `<div class="row">
+    <div class="col s12 m12">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">`+assgn+`</span>
+        </div>
+        <div class="card-action">
+          <a href ="/gradebook/` + assgn + `">Gradebook</a>
+          <a href ="/gradebook/` + assgn + `">Upload</a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  return s;
+};
+
+function setAssignments(asgnresults) {
+    var assgn = JSON.parse(asgnresults);
     console.log(assgn);
     for(var i in assgn) {
-        $("#assignments").append("<b>" +assgn[i] + ": </b>" + "<a href='/upload/" + assgn[i] + "'>submit</a> / <a href='/results/" + assgn[i] + "'>results</a> / <a href='/gradebook/" + assgn[i] + "'>gradebook</a> <br>");
+        var htmlValue = htmlForAssignment(assgn[i]);
+        $("#assignments").append(htmlValue);
     }
 }
 

@@ -1,5 +1,6 @@
 function htmlForAssignment(assgn){
-  var s=`<div class="row">
+  var s=
+  `<div class="row">
     <div class="col s12 m12">
       <div class="card">
         <div class="card-content">
@@ -13,14 +14,13 @@ function htmlForAssignment(assgn){
     </div>
   </div>`;
   return s;
+};
 
-}
 function setAssignments(asgnresults) {
     var assgn = JSON.parse(asgnresults);
     console.log(assgn);
     for(var i in assgn) {
-      var htmlValue=htmlForAssignment(assgn[i]);
-      //var htmlValue='<li class="collection-item"><span class="title">'+assgn[i]+'</span><p><a href="/upload/' + assgn[i] + '">submit</a><br><a href ="/results/' + assgn[i] + '">results</a></p></li>';
+        var htmlValue = htmlForAssignment(assgn[i]);
         $("#assignments").append(htmlValue);
     }
 }

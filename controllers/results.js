@@ -23,13 +23,11 @@ exports.view = function(req, res) {
     });
 };
 
-exports.api_recent = function(req, res, data) {
-    return res.send(data);
-}
-
 exports.most_recent = function(req, res) {
+    var username = req.params.USERNAME || req.session.username;
+    console.log(username);
     Submission.find({
-        username: req.session.username,
+        username: username,
         asgn: req.params.ASGN,
         graded: true,
     }, null, {
@@ -37,26 +35,45 @@ exports.most_recent = function(req, res) {
         limit: 1,
     }, function(err, data) {
         if(err) console.log(err);
-        console.log("PULLING MOST RECENT SUB OF ", req.session.username, req.params.ASGN, data);
+        console.log("PULLING MOST RECENT SUB OF ", username, req.params.ASGN, data);
         if(!data || !data[0]) {
-            return exports.api_recent(req, res, null);
+            return res.send([0, {username: username}]);
         }
         fetch_results(req, res, data[0]);
     });
 };
 
-function fetch_results (req, res, job) {
-    if(!job) return exports.api_recent(req, res, null);
+function fetch_results(req, res, job) {
+    if(!job) return res.send(null);
+    var username = req.params.USERNAME || req.session.username;
     request.get({
-        url: 'http://localhost:3000/poll/' + req.session.username + '/' + req.params.ASGN + '/' + job._id + '.out/'
+        url: 'http://localhost:3000/poll/' + username + '/' + req.params.ASGN + '/' + job._id + '.out/'
     }, function(err, resp, body) {
         var score;
         console.log("POLL BODY RETURN ", body);
         if(body && body.statusMsg !== "Output file not found") score = parsescore(body);
-        exports.api_recent(req, res, [score, job]);
+        return res.send([score, job]);
     });
 }
 
+exports.post = function(req, res) {
+    Submission.findOneAndUpdate({username: req.params.USERNAME, asgn: req.params.ASGN, graded: false}, {graded: true}, function(err, data) {
+        if(err) {
+            console.log(err);
+            res.send('error');
+        }
+        return res.send('updated');
+    });
+};
+
+exports.get_submissions = function(req, res) {
+    Submission.find({}, null, {sort: '-submitted', limit: 30}, function(err, data) {
+        if(err) console.log(err);
+        return res.send(data);
+    });
+};
+
+/*
 exports.get_results = function(req, res) {
     TestCase.find({}, function(err, data) {
         if(err) throw err;
@@ -72,21 +89,6 @@ exports.get_results = function(req, res) {
         });
     });
 };
+*/
 
-exports.post = function(req, res) {
-    Submission.findOneAndUpdate({username: req.params.USERNAME, asgn: req.params.ASGN, graded: false}, {graded: true}, function(err, data) {
-        if(err) {
-            console.log(err);
-            res.send('error');
-        }
-        return res.send('updated');
-    });
-};
-
-exports.get_submissions = function(req, res) {
-    Submission.find({}, null, {sort: '-submitted', limit: 50}, function(err, data) {
-        if(err) console.log(err);
-        return res.send(data);
-    });
-};
 

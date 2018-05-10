@@ -8,10 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-  <nav>
-   <div class="nav-wrapper">
+    <nav>
+    <div class="nav-wrapper">
      <ul class="left">
-      <li><a href="/"><i class="material-icons">home</i></a></li>
+      <li><a href="/admin"><i class="material-icons">home</i></a></li>
      </ul>
      <ul class="right">
        <li><a href="/logout">Logout</a></li>
@@ -21,13 +21,24 @@
          <a href="#" id="email">Email: #{email}</a>
        </li>
      </ul>
-   </div>
-  </nav>
+    </div>
+    </nav>
+    <div class="container">
+        <p>Looking at the grades for assignment <b id="asgn">#{asgn}</b>.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
 
-  <div class="container">
-      <h4 class="header" style="margin-left:10.5px;margin-right:10.5px;">Assignments</h4>
-      <div id="assignments"></div>
-  </div>
-  <script type="text/javascript" src="/js/admin.js"></script>
+            <tbody id="add">
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="/js/gradebook.js"></script>
 </body>
 </html>
+
