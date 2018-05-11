@@ -1,6 +1,7 @@
 var num_tests = {
     'Stuffie': 9,
     'Flashlight': 4,
+    'Notebook': 10,
 };
 
 
