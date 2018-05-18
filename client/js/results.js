@@ -22,10 +22,19 @@ function setResults(obj) {
     console.log(obj);
     var date = new Date(obj[1].submitted);
     $("#des").append("Job ID: <b>" + obj[1]._id + "</b>, submitted at " + date.toGMTString() + ". <br><br>");
-    if(obj[0]) $("#des").append("Most recent score: <b>" + obj[0].score + "</b>. <br>There should be " + obj[0].num_tests + " testcases. If not, assume the testcases missing got an error/wrong answer and ask Josh for more details.");
-    else return $("#des").append("Most recent score: <b>0</b>. Compile error OR time limit exceeded on one test. Make sure your code actually compiles. Then, ask Josh for help.");
-
-    console.log("here we go");
+    if(obj[0] && obj[0].result !== 'NA') $("#des").append("Most recent score: <b>" + obj[0].score + "</b>. <br>There should be " + obj[0].num_tests + " testcases. If not, assume the testcases missing got an error/wrong answer and ask Josh for more details.");
+    else {
+        var msg = "Most recent score: <b>0</b>. Compile error OR time limit exceeded on one test. <br>Make sure your code actually compiles (look below for errors). Then, ask Josh for help.<br>";
+        if(obj[0].error) {
+            console.log("ERR");
+            msg += "<pre>" + obj[0].error + "</pre>";
+        }
+        $("#des").append(msg);
+        if(obj[0].tb) {
+            $("#des").append("<pre>" + obj[0].tb + "</pre>")
+        }
+        return;
+    }
 
     var testcases = obj[0].testcases;
     for(var i in testcases) {
