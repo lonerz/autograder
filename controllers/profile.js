@@ -9,7 +9,6 @@ exports.show_user = function(req, res) {
 };
 
 exports.get_assignments = function(req, res) {
-    return res.send(["Notebook", "Flashlight", "Stuffie"]);
-    // return res.send(["assessment1", "assessment2", "assessment3"]);
+    return res.send(["Player", "People", "Notebook", "Flashlight", "Stuffie"]);
 };
 
