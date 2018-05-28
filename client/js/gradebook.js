@@ -23,6 +23,7 @@ function createCols(obj) {
 
 function createTable(obj) {
     obj.forEach(function(name) {
+        if(name === 'klin' || name === 'joshuapan') return;
         console.log(name);
         GET("../recent/" + $("#asgn").text() + "/" + name, createRow); 
     });
