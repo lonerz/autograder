@@ -29,22 +29,23 @@ exports.most_recent = function(req, res) {
     Submission.find({
         username: username,
         asgn: req.params.ASGN,
-        graded: true,
     }, null, {
         sort: '-submitted',
         limit: 1,
     }, function(err, data) {
         if(err) console.log(err);
-        console.log("PULLING MOST RECENT SUB OF ", username, req.params.ASGN, data);
+        console.log("PULLING MOST RECENT SUB OF ", username, req.params.ASGN);
         if(!data || !data[0]) {
             return res.send([0, {username: username}]);
+        }
+        if(!data[0].graded) {
+            return res.send([0, data[0]]);
         }
         fetch_results(req, res, data[0]);
     });
 };
 
 function fetch_results(req, res, job) {
-    if(!job) return res.send(null);
     var username = req.params.USERNAME || req.session.username;
     request.get({
         url: 'http://localhost:3000/poll/' + username + '/' + req.params.ASGN + '/' + job._id + '.out/'

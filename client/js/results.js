@@ -19,28 +19,40 @@ function htmlForTestcase(sub){
 
 function setResults(obj) {
     obj = JSON.parse(obj);
-    console.log(obj);
-    var date = new Date(obj[1].submitted);
-    if(!obj[1]._id) {
+    var job = obj[1];
+    var tests = obj[0];
+
+    if(!job._id) {
         $("#des").append("You have not submitted this assignment yet!");
         return;
     }
-    $("#des").append("Job ID: <b>" + obj[1]._id + "</b>, submitted at " + date.toGMTString() + ". <br><br>");
-    if(obj[0] && obj[0].result !== 'NA') $("#des").append("Most recent score: <b>" + obj[0].score + "</b>. <br>There should be " + obj[0].num_tests + " testcases. If not, assume the testcases missing got an error/wrong answer and ask Josh for more details.");
-    else {
+
+    console.log(job);
+    console.log(tests);
+
+    var date = new Date(job.submitted);
+    $("#des").append("Job ID: <b>" + job._id + "</b>, submitted at " + date.toGMTString() + ". <br><br>");
+
+    if(!job.graded) {
+        $("#des").append("Job is still running. <b>Grading in progress.</b> Refresh for new results!");
+        return;
+    }
+
+    if(tests.result === 'NA') {
         var msg = "Most recent score: <b>0</b>. Compile error OR time limit exceeded on one test. <br>Make sure your code actually compiles (look below for errors). Then, ask Josh for help.<br>";
-        if(obj[0].error) {
-            console.log("ERR");
-            msg += "<pre>" + obj[0].error + "</pre>";
+        if(tests.error) {
+            msg += "<pre>" + tests.error + "</pre>";
         }
         $("#des").append(msg);
-        if(obj[0].tb) {
-            $("#des").append("<pre>" + obj[0].tb + "</pre>")
+        if(tests.tb) {
+            $("#des").append("<pre>" + tests.tb + "</pre>")
         }
         return;
     }
 
-    var testcases = obj[0].testcases;
+    $("#des").append("Most recent score: <b>" + tests.score + "</b>. <br>There should be " + tests.num_tests + " testcases. If not, assume the testcases missing got an error/wrong answer and ask Josh for more details.");
+
+    var testcases = tests.testcases;
     for(var i in testcases) {
         var testcase = testcases[i];
         testcase.id = i;
