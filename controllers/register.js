@@ -7,7 +7,7 @@ module.exports = function(req, res) {
         return;
     }
 
-    if(!body.email.includes("@") || body.email !== "readepark@proofschool.org") {
+    if(!body.email.includes("@") || body.email !== "readepark@gmail.com") {
         res.send("invalid email <br> <a href='/'> back home </a>");
         return;
     }
