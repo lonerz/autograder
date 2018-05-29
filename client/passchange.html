@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <div class="float">
+    <div class="row">
+      <div class="col s12 m6">
+        <div class="card">
+          <form action="/passchange" method="post">
+            <div class="card-content">
+              <span class="card-title">Change Password</span>
+
+              <input type="text" name="email" placeholder="E-mail" required=""><br>
+              <input type="password" name="password" placeholder="Password" required=""><br>
+              <input type="password" name="passwordConf" placeholder="Confirm Password" required=""><br>
+            </div>
+            <div class="card-action">
+              <a href="javascript:void(0);" onclick="$(this).closest('form').submit();" value="LOGIN NOW">Confirm</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div>
+  <style>
+    .float {
+      transform: translate(-50%, -50%);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100%;
+
+    }
+
+    .float .row {
+      width: 400px;
+    }
+
+    .float .row .col {
+      width: 400px;
+    }
+
+    body {
+      overflow: hidden;
+    }
+  </style>
+</body>
+
+</html>

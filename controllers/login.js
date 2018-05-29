@@ -1,3 +1,6 @@
+var path = require('path');
+var bcrypt = require('bcrypt');
+
 var User = require('../models/user');
 
 exports.login = function(req, res) {
@@ -30,3 +33,28 @@ exports.logout = function(req, res) {
     return res.redirect('/');
 };
 
+exports.view = {};
+
+exports.view.cp = function(req, res) {
+    return res.sendFile(path.join(__dirname, '/../client/passchange.html'));
+};
+
+exports.cp = function(req, res) {
+    var body = req.body;
+
+    if(body.passwordConf !== body. password) {
+        return res.send('passwords do not match <br> <a href="/"> back home </a>');
+    }
+
+    User.find({email: body.email}, function(err, data) {
+        if(err) {
+            return res.send('error in database <br> <a href="/"> back home </a>');
+        }
+        bcrypt.hash(body.password, 10, function(err, hash) {
+            if(err) throw err;
+            User.findOneAndUpdate({email: body.email}, {password: hash, passwordConf: hash}, function(err, data) {
+                return res.redirect('/success');
+            });
+        });
+    });
+};

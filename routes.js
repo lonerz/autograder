@@ -6,7 +6,7 @@ var User = require('./models/user');
 var upload = require('./controllers/upload.js');
 var results = require('./controllers/results.js');
 var register = require('./controllers/register.js');
-var logout = require('./controllers/logout.js');
+var login = require('./controllers/login.js');
 var profile = require('./controllers/profile.js');
 var mainpage = require('./controllers/mainpage.js');
 var api = require('./controllers/api.js');
@@ -28,7 +28,9 @@ router.post('/', mainpage.post);
 router.get('/api/**', api.get);
 router.get('/api', api.get);
 
-router.get('/logout', logout);
+router.get('/logout', login.logout);
+router.get('/passchange', requiresAdmin, login.view.cp);
+router.post('/passchange', requiresAdmin, login.cp);
 
 router.get('/profile', profile.show_user);
 
@@ -40,6 +42,10 @@ router.get('/upload/:ASGN', requiresLogin, upload.view);
 router.get('/upload', requiresLogin, upload.queue);
 
 router.get('/results/:ASGN', requiresLogin, results.view);
+
+router.get('/success', function(req, res) {
+    res.sendFile(path.join(__dirname, '/client/success.html'));
+});
 
 router.get('/fail', function(req, res) {
     res.sendFile(path.join(__dirname, '/client/fail.html'));
